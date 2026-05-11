@@ -1,0 +1,22 @@
+name: update contribution chart
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # daily at 00:00 UTC
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: pipipi-dev/gcchart@v1
+        with:
+          # PAT (gcchart-action) so private/restricted contributions are
+          # included. The default ${{ github.token }} only sees public data.
+          github_token: ${{ secrets.GCCHART_ACTION_TOKEN }}
+          outputs: |
+            contributions.svg
